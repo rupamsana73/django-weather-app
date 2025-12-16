@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Weather App</title>
+
+    <style>
+        body {
+            background-image: url("https://tse3.mm.bing.net/th/id/OIP.fa_S7cQ6EC1acIe8UupsAAHaE8?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(2px);
+        }
+
+        .card {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            width: 380px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+
+        input {
+            width: 75%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            outline: none;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 18px;
+            background: #0078ff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #005fcc;
+        }
+
+        .weather-img {
+            width: 100%;
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+
+        .temp {
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: white;
+            text-shadow: 1px 1px 5px #000;
+        }
+
+        .details {
+            font-size: 18px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px #000;
+        }
+
+        .error {
+            color: #ff4d4d;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        h2 {
+            color: white;
+            text-shadow: 1px 1px 3px #000;
+        }
+
+        .forecast-box {
+    position: absolute;
+    right: 40px;
+    top: 120px;
+
+    width: 260px;
+    height: 420px;
+
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 15px;
+
+    color: white;
+    overflow-y: auto;
+}
+
+.forecast-box h3 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.forecast-item {
+    background: rgba(0,0,0,0.25);
+    border-radius: 12px;
+    padding: 8px;
+    margin-bottom: 8px;
+    text-align: center;
+    font-size: 14px;
+}
+.app-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+.card{
+    width: 380px;
+    transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.card.move-left{
+    transform: translateX(-160px);
+    width: 320px;   /* 🔥 output choto */
+}
+.forecast-box{
+    width: 280px;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.forecast-box.show{
+    opacity: 1;
+    transform: translateX(-80px);
+}
+.weather-img{
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+#output{
+    margin-top: 10px;
+}
+.logout-btn{
+    position: fixed;
+    top: 20px;
+    right: 30px;
+    padding: 10px 22px;
+
+    background: rgba(255,255,255,0.25);
+    color: white;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.logout-btn:hover{
+    background: rgba(255,255,255,0.45);
+    transform: translateY(-2px);
+}
+.user-welcome{
+    position: fixed;
+    top: 20px;
+    left: 30px;
+
+    padding: 10px 20px;
+    border-radius: 25px;
+
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(8px);
+
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    z-index: 20;
+
+    animation: fadeSlide 0.8s ease;
+}
+
+@keyframes fadeSlide{
+    from{
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.about-btn{
+    position: fixed;
+    top: 20px;
+    right: 130px;
+    padding: 10px 22px;
+    background: rgba(255,255,255,0.25);
+    color: white;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    backdrop-filter: blur(8px);
+    transition: 0.3s;
+    z-index: 10;
+}
+
+.about-btn:hover{
+    background: rgba(255,255,255,0.45);
+    transform: translateY(-2px);
+}
+
+
+
+    </style>
+</head>
+
+<body>
+   <div class="user-welcome">
+     Welcome,👋{{ request.user.username }}
+</div>
+
+    <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+    <a href="{% url 'about' %}" class="about-btn">About</a>
+
+
+
+<div class="overlay"></div>
+
+<div class="app-wrapper">
+
+    <div class="card" id="mainCard">
+        <h2> Search city</h2>
+
+        <input id="city" type="text" placeholder="Enter city">
+        <button onclick="getWeather()">Search</button>
+
+        <div id="output"></div>
+    </div>
+
+    <div class="forecast-box" id="forecastBox">
+        <h3>5 Day Forecast</h3>
+        <div id="forecast"></div>
+    </div>
+
+</div>
+
+
+<script>
+function getWeather() {
+    let city = document.getElementById("city").value;
+
+    if (!city) {
+        alert("Enter a city!");
+        return;
+    }
+
+    document.getElementById("output").innerHTML =
+        "<p style='color:white'>Loading...</p>";
+
+    fetch(`/api/weather/?city=${city}`)
+        .then(res => res.json())
+        .then(data => {
+
+            if (data.cod == "404") {
+                document.getElementById("output").innerHTML =
+                    "<p class='error'>City not found ❌</p>";
+                return;
+            }
+
+            //  City image
+            let cityImageUrl =
+                `https://tse3.mm.bing.net/th?q=${encodeURIComponent(city + " landmark")}&w=600&h=400&c=7&rs=1&adlt=moderate`;
+
+            //  Weather icon
+            let icon = data.weather[0].icon;
+            let weatherIcon =
+                `https://openweathermap.org/img/wn/${icon}@2x.png`;
+
+            //  MAIN OUTPUT
+            document.getElementById("output").innerHTML = `
+                <img src="${cityImageUrl}" class="weather-img">
+                <img src="${weatherIcon}">
+                <div class="temp">${data.main.temp}°C</div>
+                <div class="details">${data.weather[0].description}</div>
+                <div class="details">Humidity: ${data.main.humidity}%</div>
+                <div class="details">Wind: ${data.wind.speed} m/s</div>
+            `;
+
+            //  SAME TIME ACTIONS
+            getForecast(city);
+
+            document.getElementById("mainCard").classList.add("move-left");
+            document.getElementById("forecastBox").classList.add("show");
+        })
+        .catch(() => {
+            document.getElementById("output").innerHTML =
+                "<p class='error'>Something went wrong ❌</p>";
+        });
+}
+
+
+// ================= FORECAST =================
+
+function getForecast(city) {
+    fetch(`/api/forecast/?city=${city}`)
+        .then(res => res.json())
+        .then(data => {
+            let forecastDiv = document.getElementById("forecast");
+            forecastDiv.innerHTML = "";
+
+            for (let i = 0; i < data.list.length; i += 8) {
+                let day = data.list[i];
+                let date = new Date(day.dt_txt).toDateString();
+
+                forecastDiv.innerHTML += `
+                    <div class="forecast-item">
+                        <strong>${date}</strong><br>
+                        🌡 ${day.main.temp}°C<br>
+                        ☁ ${day.weather[0].main}
+                    </div>
+                `;
+            }
+        });
+}
+</script>
+
+
+</body>
+</html>
