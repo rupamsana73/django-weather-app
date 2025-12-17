@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import requests
 
-API_KEY = "3c0993f78cbd22fdde983556cd1d59a9"
+API_KEY = ""
 
 # ---------- AUTH ----------
 def login_view(request):
